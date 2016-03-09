@@ -67,6 +67,7 @@ static const char *drivernames[]={
 #ifdef H5_HAVE_PARALLEL
     "mpio",
 #endif /* H5_HAVE_PARALLEL */
+    "s3",
 };
 
 /* This enum should match the entries in the above drivers_list since they
@@ -79,6 +80,7 @@ typedef enum {
 #ifdef H5_HAVE_PARALLEL
    ,MPIO_IDX
 #endif /* H5_HAVE_PARALLEL */
+   ,S3_IDX
 } driver_idx;
 #define NUM_DRIVERS     (sizeof(drivernames) / sizeof(drivernames[0]))
 
@@ -528,6 +530,14 @@ h5tools_get_fapl(hid_t fapl, const char *driver, unsigned *drivernum)
         } /* end if */
     }
 #endif /* H5_HAVE_PARALLEL */
+    else if (!HDstrcmp(driver, drivernames[S3_IDX])) {
+        /* S3 driver */
+        if (H5Pset_fapl_s3(new_fapl) < 0) //FIXME: bucket name
+            goto error;
+
+        if (drivernum)
+            *drivernum = S3_IDX;
+    }
     else
         goto error;
 

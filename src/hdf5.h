@@ -53,4 +53,6 @@
 #endif
 #include "H5FDdirect.h"     	/* Linux direct I/O			*/
 
+#include "H5FDs3.h"		/* S3 file driver		*/
+
 #endif

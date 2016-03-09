@@ -320,7 +320,8 @@ H5FDregister(const H5FD_class_t *cls)
 	HGOTO_ERROR(H5E_ARGS, H5E_UNINITIALIZED, FAIL, "`get_eoa' and/or `set_eoa' methods are not defined")
     if(!cls->get_eof)
 	HGOTO_ERROR(H5E_ARGS, H5E_UNINITIALIZED, FAIL, "`get_eof' method is not defined")
-    if(!cls->read || !cls->write)
+//    if(!cls->read || !cls->write)
+    if(!cls->read)
 	HGOTO_ERROR(H5E_ARGS, H5E_UNINITIALIZED, FAIL, "`read' and/or `write' method is not defined")
     for (type=H5FD_MEM_DEFAULT; type<H5FD_MEM_NTYPES; H5_INC_ENUM(H5FD_mem_t,type))
 	if(cls->fl_map[type]<H5FD_MEM_NOLIST || cls->fl_map[type]>=H5FD_MEM_NTYPES)
@@ -377,7 +378,8 @@ H5FD_register(const void *_cls, size_t size, hbool_t app_ref)
     HDassert(cls->open && cls->close);
     HDassert(cls->get_eoa && cls->set_eoa);
     HDassert(cls->get_eof);
-    HDassert(cls->read && cls->write);
+    //HDassert(cls->read && cls->write); //FIXME! I am taking this requirement out for now
+    HDassert(cls->read);
     for(type = H5FD_MEM_DEFAULT; type < H5FD_MEM_NTYPES; H5_INC_ENUM(H5FD_mem_t, type))
         HDassert(cls->fl_map[type] >= H5FD_MEM_NOLIST && cls->fl_map[type] < H5FD_MEM_NTYPES);
 

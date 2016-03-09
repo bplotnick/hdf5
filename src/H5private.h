@@ -1302,6 +1302,13 @@ H5_DLL int HDfprintf (FILE *stream, const char *fmt, ...);
 #ifndef HDstrtok
     #define HDstrtok(X,Y)    strtok(X,Y)
 #endif /* HDstrtok */
+#if defined(_WIN32) || defined(_WIN64)
+/* We are on Windows */
+    #define strtok_r strtok_s
+#endif
+#ifndef HDstrtok_r
+    #define HDstrtok_r(X,Y,Z)    strtok_r(X,Y,Z)
+#endif
 #ifndef HDstrtol
     #define HDstrtol(S,R,N)    strtol(S,R,N)
 #endif /* HDstrtol */
